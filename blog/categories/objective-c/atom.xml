@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Objective-C | ほくろん.com]]></title>
+  <link href="http://hokuron.github.io/blog/categories/objective-c/atom.xml" rel="self"/>
+  <link href="http://hokuron.github.io/"/>
+  <updated>2014-05-08T00:34:48+09:00</updated>
+  <id>http://hokuron.github.io/</id>
+  <author>
+    <name><![CDATA[Takuma Shimizu]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Modern Objective-Cの新しいEnumの記述方法]]></title>
+    <link href="http://hokuron.github.io/blog/2014/05/08/wwdc2012-ns-enum/"/>
+    <updated>2014-05-08T00:09:21+09:00</updated>
+    <id>http://hokuron.github.io/blog/2014/05/08/wwdc2012-ns-enum</id>
+    <content type="html"><![CDATA[<p>WWDC 2012のセッションの一つである<strong>Modern Objective-C</strong>から<strong>Enum</strong>の新しい書き方を紹介してみようと思います。</p>
+
+<p>これまでObjective-Cの明示的なEnumの書き方は、C言語と同じように列挙したのち、integer系のラッパークラスなどでその列挙を表す型を定義していました。</p>
+
+<p>``` objc
+// 広告の位置を指定するための位置候補
+enum
+{</p>
+
+<pre><code>CTRAdPositionViewTop = 0, // default
+CTRAdPositionViewBottom
+</code></pre>
+
+<p>};
+typedef NSUInteger CTRAdPosition;
+```</p>
+
+<p>しかし、これでは、入力しようとしている型と関係のない、他所でenum列挙された項目が補完候補に登場してしまうので煩雑になってしまいます。<br/>
+特にUIViewAnimationなんか打つと、目的の項目を探すほうが手間になるほど。しかし、Xcode4.4以降は、今から説明する新しいEnumの書き方で書かれているのでそんなことはなくなりました。</p>
+
+<h2>新しいEnumの書き方</h2>
+
+<p>上の例を新しい書き方に直してみましょう。</p>
+
+<p>``` objc
+// Xcode 4.4 or later
+typedef enum CTRAdPosition : NSUInteger
+{</p>
+
+<pre><code>CTRAdPositionViewTop = 0, // default
+CTRAdPositionViewBottom
+</code></pre>
+
+<p>} CTRAdPosition;
+```</p>
+
+<p><code>typedef enum</code>のあとに新しい型名と元になる型をコロン区切りで記述し、列挙と型定義を同時に行っていますね。<br/>
+以前とは違い型定義が先にくることで何の列挙か理解しやすくなりました。また、この書き方をするだけで目的の型に合致した補完候補が出てくるようになります。</p>
+
+<p>さらに <strong><code>NS_ENUM</code></strong>というマクロも用意されており、これを使えばより簡潔に書けます。</p>
+
+<p>``` objc
+// Xcode 4.4 or later
+typedef NS_ENUM(NSInteger, CTRAdPosition)
+{</p>
+
+<pre><code>CTRAdPositionViewTop = 0, // default
+CTRAdPositionViewBottom
+</code></pre>
+
+<p>};
+```</p>
+
+<p>マクロの第1引数に元の型、第2引数に新しい型名を渡すようにします。</p>
+
+<p>他にもEnumのマクロとして <strong><code>NS_OPTIONS</code></strong>があり、中身は<code>NS_ENUM</code>と同じですが使うべき用途が異なります。<br/>
+OPTIONSと付くだけあり、列挙した項目を複数指定できるビット演算を使ったenumのときに使用します。</p>
+
+<p>``` objc
+// Xcode 4.4 or later
+typedef NS_OPTIONS(NSUInteger, CTRAdType)
+{</p>
+
+<pre><code>CTRAdTypeNone   = 0,
+CTRAdTypeIAd    = 1 &amp;lt;&amp;lt; 0,
+CTRAdTypeAdMob  = 1 &amp;lt;&amp;lt; 1,
+CTRAdTypeHomeAd = 1 &amp;lt;&amp;lt; 2,
+</code></pre>
+
+<p>};
+```</p>
+
+<p>上の例は、表示する広告の種類を指定する際、複数選択できることを示しています。ただ、<code>CTRAdTypeNone</code>は表示しないの一択ですので、ビット演算から外れ、0が割り当てられています。</p>
+]]></content>
+  </entry>
+  
+</feed>
