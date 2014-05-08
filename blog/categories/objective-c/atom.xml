@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Objective-C | ほくろん.com]]></title>
   <link href="http://hokuron.github.io/blog/categories/objective-c/atom.xml" rel="self"/>
   <link href="http://hokuron.github.io/"/>
-  <updated>2014-05-08T10:07:47+09:00</updated>
+  <updated>2014-05-08T10:10:53+09:00</updated>
   <id>http://hokuron.github.io/</id>
   <author>
     <name><![CDATA[Takuma Shimizu]]></name>
@@ -20,7 +20,7 @@
     <id>http://hokuron.github.io/blog/2014/05/08/wwdc2012-ns-enum</id>
     <content type="html"><![CDATA[<p>WWDC 2012のセッションの一つである<strong>Modern Objective-C</strong>から<strong>Enum</strong>の新しい書き方を紹介してみようと思います。</p>
 
-<p>これまでObjective-Cの明示的なEnumの書き方は、C言語と同じように列挙したのち、integer系のラッパークラスなどでその列挙を表す型を定義していました。</p>
+<p>これまでObjective-Cの明示的なEnumの書き方は、C言語と同じように列挙したのち、integer系のラッパーなどでその列挙を表す型を定義していました。</p>
 
 <p>``` objc
 // 広告の位置を指定するための位置候補
