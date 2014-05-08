@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Objective-C | ほくろん.com]]></title>
   <link href="http://hokuron.github.io/blog/categories/objective-c/atom.xml" rel="self"/>
   <link href="http://hokuron.github.io/"/>
-  <updated>2014-05-08T11:36:13+09:00</updated>
+  <updated>2014-05-08T12:33:15+09:00</updated>
   <id>http://hokuron.github.io/</id>
   <author>
     <name><![CDATA[Takuma Shimizu]]></name>
@@ -50,7 +50,9 @@
           if (obj == [NSNull null]) {
               [notif setValue:nil forKey:key];
           }
-          [notif setValue:obj forKey:key];
+          else {
+              [notif setValue:obj forKey:key];
+          }
       }
   }];
   return notif;

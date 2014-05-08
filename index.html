@@ -137,6 +137,8 @@
 <span class='line-number'>19</span>
 <span class='line-number'>20</span>
 <span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="cp">#import &lt;objc/runtime.h&gt; </span><span class="c1">// (A)</span>
 </span><span class='line'>
 </span><span class='line'><span class="k">@implementation</span> <span class="nc">UILocalNotification</span> <span class="nl">(HKROption)</span>
@@ -151,7 +153,9 @@
 </span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="n">obj</span> <span class="o">==</span> <span class="p">[</span><span class="n">NSNull</span> <span class="n">null</span><span class="p">])</span> <span class="p">{</span>
 </span><span class='line'>                <span class="p">[</span><span class="n">notif</span> <span class="nl">setValue:</span><span class="nb">nil</span> <span class="nl">forKey:</span><span class="n">key</span><span class="p">];</span>
 </span><span class='line'>            <span class="p">}</span>
-</span><span class='line'>            <span class="p">[</span><span class="n">notif</span> <span class="nl">setValue:</span><span class="n">obj</span> <span class="nl">forKey:</span><span class="n">key</span><span class="p">];</span>
+</span><span class='line'>            <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>                <span class="p">[</span><span class="n">notif</span> <span class="nl">setValue:</span><span class="n">obj</span> <span class="nl">forKey:</span><span class="n">key</span><span class="p">];</span>
+</span><span class='line'>            <span class="p">}</span>
 </span><span class='line'>        <span class="p">}</span>
 </span><span class='line'>    <span class="p">}];</span>
 </span><span class='line'>    <span class="k">return</span> <span class="n">notif</span><span class="p">;</span>
