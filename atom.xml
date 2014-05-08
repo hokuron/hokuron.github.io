@@ -4,7 +4,7 @@
   <title><![CDATA[ほくろん.com]]></title>
   <link href="http://hokuron.github.io/atom.xml" rel="self"/>
   <link href="http://hokuron.github.io/"/>
-  <updated>2014-05-08T00:45:04+09:00</updated>
+  <updated>2014-05-08T10:07:47+09:00</updated>
   <id>http://hokuron.github.io/</id>
   <author>
     <name><![CDATA[Takuma Shimizu]]></name>
@@ -98,9 +98,9 @@ OPTIONSと付くだけあり、列挙した項目を複数指定できるビッ�
 </span><span class='line'><span class="k">typedef</span> <span class="nf">NS_OPTIONS</span><span class="p">(</span><span class="n">NSUInteger</span><span class="p">,</span> <span class="n">CTRAdType</span><span class="p">)</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>    <span class="n">CTRAdTypeNone</span>   <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">CTRAdTypeIAd</span>    <span class="o">=</span> <span class="mi">1</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="mi">0</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">CTRAdTypeAdMob</span>  <span class="o">=</span> <span class="mi">1</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="mi">1</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">CTRAdTypeHomeAd</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="mi">2</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">CTRAdTypeIAd</span>    <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">0</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">CTRAdTypeAdMob</span>  <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">CTRAdTypeHomeAd</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">2</span><span class="p">,</span>
 </span><span class='line'><span class="p">};</span>
 </span></code></pre></td></tr></table></div></figure>
 

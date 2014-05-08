@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Objective-C | ほくろん.com]]></title>
   <link href="http://hokuron.github.io/blog/categories/objective-c/atom.xml" rel="self"/>
   <link href="http://hokuron.github.io/"/>
-  <updated>2014-05-08T00:45:04+09:00</updated>
+  <updated>2014-05-08T10:07:47+09:00</updated>
   <id>http://hokuron.github.io/</id>
   <author>
     <name><![CDATA[Takuma Shimizu]]></name>
@@ -82,9 +82,9 @@ typedef NS_OPTIONS(NSUInteger, CTRAdType)
 {</p>
 
 <pre><code>CTRAdTypeNone   = 0,
-CTRAdTypeIAd    = 1 &amp;lt;&amp;lt; 0,
-CTRAdTypeAdMob  = 1 &amp;lt;&amp;lt; 1,
-CTRAdTypeHomeAd = 1 &amp;lt;&amp;lt; 2,
+CTRAdTypeIAd    = 1 &lt;&lt; 0,
+CTRAdTypeAdMob  = 1 &lt;&lt; 1,
+CTRAdTypeHomeAd = 1 &lt;&lt; 2,
 </code></pre>
 
 <p>};
