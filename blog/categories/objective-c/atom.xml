@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Objective-C | ほくろん.com]]></title>
   <link href="http://hokuron.github.io/blog/categories/objective-c/atom.xml" rel="self"/>
   <link href="http://hokuron.github.io/"/>
-  <updated>2014-05-08T10:13:07+09:00</updated>
+  <updated>2014-05-08T11:36:13+09:00</updated>
   <id>http://hokuron.github.io/</id>
   <author>
     <name><![CDATA[Takuma Shimizu]]></name>
@@ -12,6 +12,66 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NSDictionaryを使ってインスタンスを作成する]]></title>
+    <link href="http://hokuron.github.io/blog/2014/05/08/nsdictionary-properties/"/>
+    <updated>2014-05-08T10:19:24+09:00</updated>
+    <id>http://hokuron.github.io/blog/2014/05/08/nsdictionary-properties</id>
+    <content type="html"><![CDATA[<p>引数として<code>NSDictionary</code>を渡せば一括でプロパティを設定する、ということやってくれるメソッドを定義していきます。</p>
+
+<p><code>UILocalNotification</code>を例に使って定義していきます。</p>
+
+<p>``` objc UILocalNotification+HKROption.h
+@interface UILocalNotification (HKROption)</p>
+
+<ul>
+<li>(instancetype)hkr_localNotificationWithOptions:(NSDictionary *)properties;</li>
+</ul>
+
+
+<p>@end
+```</p>
+
+<p>``` objc UILocalNotification+HKROption.m</p>
+
+<h1>import &lt;objc/runtime.h> // (A)</h1>
+
+<p>@implementation UILocalNotification (HKROption)</p>
+
+<ul>
+<li>(instancetype)hkr_localNotificationWithOptions:(NSDictionary <em>)properties
+{
+  UILocalNotification </em>notif = [UILocalNotification new];
+  [properties enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+      // (B)
+      if (class_getProperty([notif class], [key UTF8String]) != NULL) {
+          // &copy;
+          if (obj == [NSNull null]) {
+              [notif setValue:nil forKey:key];
+          }
+          [notif setValue:obj forKey:key];
+      }
+  }];
+  return notif;
+}</li>
+</ul>
+
+
+<p>@end
+```</p>
+
+<p>ポイントとしては<code>(B)</code>の<code>class_getProperty()</code>関数を使っているところです。第一引数のクラス内に第二引数が示すプロパティが定義されているか調べています。定義されていなければ<code>NULL</code>が返ります。<br/>
+この関数を使うには必ず<code>(A)</code>のように<code>objc/runtime.h</code>を読み込んでおきます。<br/>
+<code>NSDictionary</code>は<code>nil</code>を指定できないため、<code>(C)</code>で<code>[NSNull null]</code>が値としてきた場合、代わりに<code>nil</code>をセットする処理をしています。</p>
+
+<p>Objective-Cの特徴的な名前付き引数を殺してしまいますが、<code>UILocalNotification</code>のようにすべてのプロパティを埋めることがあまりないクラスとは相性が良いかと思います。</p>
+
+<p>余談ですが、RubyというかRailsでこの手法を目にすることが多く、Objective-Cの<code>KVC</code>と相性が良さそうなので今回このエントリーを思い立ちました。<br/>
+さらに余談ですが、Rubyの場合は最後の引数が<code>Hash</code>型(ObjCの<code>NSDictionary</code>)の場合、ハッシュリテラル<code>{}</code>は省略可能で、シンボル表記と相まって名前付き引数のように列挙できます。Rubyはこういう地味に便利な機構が多く備わっています。すばらしい…<br/>
+もっと言えば、ruby 2.0からはちゃんとキーワード引数が使えます。すばらしい…</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Modern Objective-Cの新しいEnumの記述方法]]></title>

@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>ほくろん.com</title>
+  <title>NSDictionaryを使ってインスタンスを作成する - ほくろん.com</title>
   <meta name="author" content="Takuma Shimizu">
 
   
@@ -23,7 +23,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://hokuron.github.io">
+  <link rel="canonical" href="http://hokuron.github.io/blog/2014/05/08/nsdictionary-properties">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="ほくろん.com" type="application/atom+xml">
@@ -66,15 +66,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2014/05/08/nsdictionary-properties/">NSDictionaryを使ってインスタンスを作成する</a></h1>
+      <h1 class="entry-title">NSDictionaryを使ってインスタンスを作成する</h1>
     
     
       <p class="meta">
@@ -97,7 +94,7 @@
   </header>
 
 
-  <div class="entry-content"><p>引数として<code>NSDictionary</code>を渡せば一括でプロパティを設定する、ということやってくれるメソッドを定義していきます。</p>
+<div class="entry-content"><p>引数として<code>NSDictionary</code>を渡せば一括でプロパティを設定する、ということやってくれるメソッドを定義していきます。</p>
 
 <p><code>UILocalNotification</code>を例に使って定義していきます。</p>
 
@@ -171,22 +168,16 @@
 さらに余談ですが、Rubyの場合は最後の引数が<code>Hash</code>型(ObjCの<code>NSDictionary</code>)の場合、ハッシュリテラル<code>{}</code>は省略可能で、シンボル表記と相まって名前付き引数のように列挙できます。Rubyはこういう地味に便利な機構が多く備わっています。すばらしい…<br/>
 もっと言えば、ruby 2.0からはちゃんとキーワード引数が使えます。すばらしい…</p>
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/05/08/wwdc2012-ns-enum/">Modern Objective-Cの新しいEnumの記述方法</a></h1>
-    
-    
-      <p class="meta">
-        
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Takuma Shimizu</span></span>
+
+      
 
 
 
@@ -198,116 +189,43 @@
   
 
 
-<time datetime="2014-05-08T00:09:21+09:00" pubdate data-updated="true">May 8<span>th</span>, 2014</time>
-        
-      </p>
+<time datetime="2014-05-08T10:19:24+09:00" pubdate data-updated="true">May 8<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/objective-c/'>Objective-C</a>
+  
+</span>
+
+
+    </p>
     
-  </header>
-
-
-  <div class="entry-content"><p>WWDC 2012のセッションの一つである<strong>Modern Objective-C</strong>から<strong>Enum</strong>の新しい書き方を紹介してみようと思います。</p>
-
-<p>これまでObjective-Cの明示的なEnumの書き方は、C言語と同じように列挙したのち、integer系のラッパーなどでその列挙を表す型を定義していました。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">// 広告の位置を指定するための位置候補</span>
-</span><span class='line'><span class="k">enum</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">CTRAdPositionViewTop</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="c1">// default</span>
-</span><span class='line'>    <span class="n">CTRAdPositionViewBottom</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'><span class="k">typedef</span> <span class="n">NSUInteger</span> <span class="n">CTRAdPosition</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>しかし、これでは、入力しようとしている型と関係のない、他所でenum列挙された項目が補完候補に登場してしまうので煩雑になってしまいます。<br/>
-特にUIViewAnimationなんか打つと、目的の項目を探すほうが手間になるほど。しかし、Xcode4.4以降は、今から説明する新しいEnumの書き方で書かれているのでそんなことはなくなりました。</p>
-
-<h2>新しいEnumの書き方</h2>
-
-<p>上の例を新しい書き方に直してみましょう。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">// Xcode 4.4 or later</span>
-</span><span class='line'><span class="k">typedef</span> <span class="k">enum</span> <span class="n">CTRAdPosition</span> <span class="o">:</span> <span class="n">NSUInteger</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">CTRAdPositionViewTop</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="c1">// default</span>
-</span><span class='line'>    <span class="n">CTRAdPositionViewBottom</span>
-</span><span class='line'><span class="p">}</span> <span class="n">CTRAdPosition</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>typedef enum</code>のあとに新しい型名と元になる型をコロン区切りで記述し、列挙と型定義を同時に行っていますね。<br/>
-以前とは違い型定義が先にくることで何の列挙か理解しやすくなりました。また、この書き方をするだけで目的の型に合致した補完候補が出てくるようになります。</p>
-
-<p>さらに <strong><code>NS_ENUM</code></strong>というマクロも用意されており、これを使えばより簡潔に書けます。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">// Xcode 4.4 or later</span>
-</span><span class='line'><span class="k">typedef</span> <span class="nf">NS_ENUM</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">,</span> <span class="n">CTRAdPosition</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">CTRAdPositionViewTop</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="c1">// default</span>
-</span><span class='line'>    <span class="n">CTRAdPositionViewBottom</span>
-</span><span class='line'><span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>マクロの第1引数に元の型、第2引数に新しい型名を渡すようにします。</p>
-
-<p>他にもEnumのマクロとして <strong><code>NS_OPTIONS</code></strong>があり、中身は<code>NS_ENUM</code>と同じですが使うべき用途が異なります。<br/>
-OPTIONSと付くだけあり、列挙した項目を複数指定できるビット演算を使ったenumのときに使用します。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">// Xcode 4.4 or later</span>
-</span><span class='line'><span class="k">typedef</span> <span class="nf">NS_OPTIONS</span><span class="p">(</span><span class="n">NSUInteger</span><span class="p">,</span> <span class="n">CTRAdType</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">CTRAdTypeNone</span>   <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">CTRAdTypeIAd</span>    <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">0</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">CTRAdTypeAdMob</span>  <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">CTRAdTypeHomeAd</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">2</span><span class="p">,</span>
-</span><span class='line'><span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>上の例は、表示する広告の種類を指定する際、複数選択できることを示しています。ただ、<code>CTRAdTypeNone</code>は表示しないの一択ですので、ビット演算から外れ、0が割り当てられています。</p>
+      <div class="sharing">
+  <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard" data-hatena-bookmark-url="http://hokuron.github.io/blog/2014/05/08/nsdictionary-properties/">
+    <img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none">
+  </a>
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://hokuron.github.io/blog/2014/05/08/nsdictionary-properties/" data-via="hokuron" data-counturl="http://hokuron.github.io/blog/2014/05/08/nsdictionary-properties/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
 </div>
-  
-  
 
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/05/08/wwdc2012-ns-enum/" title="Previous Post: Modern Objective-Cの新しいEnumの記述方法">&laquo; Modern Objective-Cの新しいEnumの記述方法</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
 </div>
+
 <aside class="sidebar">
   
     <section>
@@ -331,6 +249,7 @@ OPTIONSと付くだけあり、列挙した項目を複数指定できるビッ�
 
   
 </aside>
+
 
     </div>
   </div>

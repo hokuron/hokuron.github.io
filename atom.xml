@@ -4,7 +4,7 @@
   <title><![CDATA[ほくろん.com]]></title>
   <link href="http://hokuron.github.io/atom.xml" rel="self"/>
   <link href="http://hokuron.github.io/"/>
-  <updated>2014-05-08T10:13:07+09:00</updated>
+  <updated>2014-05-08T11:36:13+09:00</updated>
   <id>http://hokuron.github.io/</id>
   <author>
     <name><![CDATA[Takuma Shimizu]]></name>
@@ -12,6 +12,87 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NSDictionaryを使ってインスタンスを作成する]]></title>
+    <link href="http://hokuron.github.io/blog/2014/05/08/nsdictionary-properties/"/>
+    <updated>2014-05-08T10:19:24+09:00</updated>
+    <id>http://hokuron.github.io/blog/2014/05/08/nsdictionary-properties</id>
+    <content type="html"><![CDATA[<p>引数として<code>NSDictionary</code>を渡せば一括でプロパティを設定する、ということやってくれるメソッドを定義していきます。</p>
+
+<p><code>UILocalNotification</code>を例に使って定義していきます。</p>
+
+<figure class='code'><figcaption><span>UILocalNotification+HKROption.h</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@interface</span> <span class="nc">UILocalNotification</span> <span class="nl">(HKROption)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">hkr_localNotificationWithOptions:</span><span class="p">(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">properties</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>UILocalNotification+HKROption.m</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="cp">#import &lt;objc/runtime.h&gt; </span><span class="c1">// (A)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">UILocalNotification</span> <span class="nl">(HKROption)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">hkr_localNotificationWithOptions:</span><span class="p">(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">properties</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">UILocalNotification</span> <span class="o">*</span><span class="n">notif</span> <span class="o">=</span> <span class="p">[</span><span class="n">UILocalNotification</span> <span class="n">new</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">properties</span> <span class="nl">enumerateKeysAndObjectsUsingBlock:</span><span class="o">^</span><span class="p">(</span><span class="kt">id</span> <span class="n">key</span><span class="p">,</span> <span class="kt">id</span> <span class="n">obj</span><span class="p">,</span> <span class="kt">BOOL</span> <span class="o">*</span><span class="n">stop</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// (B)</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">class_getProperty</span><span class="p">([</span><span class="n">notif</span> <span class="n">class</span><span class="p">],</span> <span class="p">[</span><span class="n">key</span> <span class="n">UTF8String</span><span class="p">])</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="c1">// (C)</span>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="n">obj</span> <span class="o">==</span> <span class="p">[</span><span class="n">NSNull</span> <span class="n">null</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>                <span class="p">[</span><span class="n">notif</span> <span class="nl">setValue:</span><span class="nb">nil</span> <span class="nl">forKey:</span><span class="n">key</span><span class="p">];</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="p">[</span><span class="n">notif</span> <span class="nl">setValue:</span><span class="n">obj</span> <span class="nl">forKey:</span><span class="n">key</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}];</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">notif</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ポイントとしては<code>(B)</code>の<code>class_getProperty()</code>関数を使っているところです。第一引数のクラス内に第二引数が示すプロパティが定義されているか調べています。定義されていなければ<code>NULL</code>が返ります。<br/>
+この関数を使うには必ず<code>(A)</code>のように<code>objc/runtime.h</code>を読み込んでおきます。<br/>
+<code>NSDictionary</code>は<code>nil</code>を指定できないため、<code>(C)</code>で<code>[NSNull null]</code>が値としてきた場合、代わりに<code>nil</code>をセットする処理をしています。</p>
+
+<p>Objective-Cの特徴的な名前付き引数を殺してしまいますが、<code>UILocalNotification</code>のようにすべてのプロパティを埋めることがあまりないクラスとは相性が良いかと思います。</p>
+
+<p>余談ですが、RubyというかRailsでこの手法を目にすることが多く、Objective-Cの<code>KVC</code>と相性が良さそうなので今回このエントリーを思い立ちました。<br/>
+さらに余談ですが、Rubyの場合は最後の引数が<code>Hash</code>型(ObjCの<code>NSDictionary</code>)の場合、ハッシュリテラル<code>{}</code>は省略可能で、シンボル表記と相まって名前付き引数のように列挙できます。Rubyはこういう地味に便利な機構が多く備わっています。すばらしい…<br/>
+もっと言えば、ruby 2.0からはちゃんとキーワード引数が使えます。すばらしい…</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Modern Objective-Cの新しいEnumの記述方法]]></title>
